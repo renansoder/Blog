@@ -1,0 +1,55 @@
+<%- include ('../../partials/header.ejs') %>
+  <%- include ('../../partials/navbar.ejs') %>
+
+    <div class="container">
+      <hr>
+      <div class="card">
+        <div class="card-header">
+          <h2>Edição de artigo</h2>
+        </div>
+        <div class="card-body">
+          <form action="/articles/update" method="POST">
+            <label>Título anterior:</label>
+            <input class="form-control" type="text" value="<%= article.title %>">
+            <br>
+            <input class="form-control" type="text" name="title" title="Obrigatório preencher este campo!"
+              placeholder="Defina o título do artigo">
+            <br>
+            <textarea class="form-control" name="body" id="article"><%- article.body %></textarea>
+            <br>
+            <input type="hidden" name="id" value="<%= article.id %>">
+
+            <label>Escolha a categoria:</label>
+            <select class="form-control" name="category">
+              <% categories.forEach(categoria=> { %>
+                <% if(categoria.id==article.categoryId) { %>
+                  <option value="<%= categoria.id %>" selected>
+                    <%= categoria.title %>
+                  </option>
+                  <% } else { %>
+                    <option value="<%= categoria.id %>">
+                      <%= categoria.title %>
+                    </option>
+                    <% } %>
+                      <% }) %>
+            </select>
+
+            <br>
+            <button class="btn btn-success">Atualizar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <%- include ('../../partials/footer.ejs') %>
+
+      <script src="/tinymce/tinymce.min.js"></script>
+      <script>
+        tinymce.init({
+          language: 'pt_BR',
+          selector: '#article',
+          plugins: [
+            'table', 'advlist', 'autolink', 'image', 'lists', 'link', 'print', 'preview', 'hr', 'searchreplace', 'wordcount', 'fullscreen', 'insertdatetime', 'media', 'save', 'paste'
+          ]
+        })
+      </script>
